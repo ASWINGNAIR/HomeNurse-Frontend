@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import NurseProfile from './pages/NurseProfile'
 import Admin from './pages/Admin'
 import NurseRegistration from './pages/NurseRegistration'
+import Auth2 from './pages/Auth2'
 
 
 
@@ -19,8 +20,10 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />  
         <Route path='/Admin' element={<Admin />} />
-        <Route path='/login' element={<Auth />} />
-        <Route path='/Register' element={<Auth register={true} />} />
+        <Route path='/userLogin' element={<Auth />} />
+        <Route path='/userRegister' element={<Auth userRegister={true} />} />
+        <Route path='/nurseLogin' element={<Auth2 />} />
+        <Route path='/nurseRegister' element={<Auth2 nurseRegister={true} />} />
         <Route path='/Dashboard' element={<Dashboard />} />
         <Route path='/NurseProfile' element={<NurseProfile />} />
         <Route path='/NurseRegistration' element={<NurseRegistration />} />
