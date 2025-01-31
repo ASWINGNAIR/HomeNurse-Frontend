@@ -1,5 +1,4 @@
 import React from 'react'
-import AddProfile from '../components/AddProfile'
 import Header from '../components/Header'
 
 
@@ -18,7 +17,7 @@ function NurseRegistration() {
             <p className='fs-5'>There are multiple services like Child care , Oldage Care ,Postoperative care etc so interested and eligible nurses can join our team and serve the nation. <br /> <span className='text-danger fw-bold'>To join our team fill the form that follows...</span></p>
         </div>
 
-        <AddProfile/>
+        
 
     </>
   )

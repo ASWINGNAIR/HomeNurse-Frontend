@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Container, Row, Col, Card, Button, Table, Nav } from "react-bootstrap";
+import { getAllNurseProfileApi } from "../Service/allApi";
 
 function Admin() {
+
+  const [token , setToken] = useState("")
+
+  const [allNurseProfile , setAllNurseProfile] = useState([])
+
+  const getAllNurseProfile = async()=>{
+    if(sessionStorage.getItem("token")){
+      const token = sessionStorage.getItem("token")
+
+      const reqHeader = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+      const result = await getAllNurseProfileApi(reqHeader)
+      setAllNurseProfile(result.data)
+    }
+  }
+
+  console.log(allNurseProfile);
+  
+
+  useEffect(()=>{
+    getAllNurseProfile()
+  },[])
+  
+
   return (
     <>
       <Header />
@@ -12,7 +39,7 @@ function Admin() {
           {/* Sidebar */}
           <div
             className="d-md-block bg-dark text-light p-3"
-            style={{ width: "250px" }}
+            style={{ width: "250px",height:"235px" }}
           >
             <h3 className="text-center text-light">Admin Panel</h3>
             <Nav defaultActiveKey="/dashboard" className="flex-column mt-4">
@@ -73,8 +100,11 @@ function Admin() {
                             <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>mobile</th>
                             <th>Qualification</th>
                             <th>Experience</th>
+                            <th>Degree Certificate</th>
+                            <th>Experience Certificate</th>
                             <th>Status</th>
                             <th>Action</th>
                           </tr>
@@ -84,8 +114,11 @@ function Admin() {
                             <td>1</td>
                             <td>John Doe</td>
                             <td>johndoe@example.com</td>
+                            <td>9098738737</td>
                             <td>B.Sc Nursing</td>
                             <td>5 Years</td>
+                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
+                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
                             <td>
                               <span className="badge bg-warning text-dark">
                                 Pending
@@ -108,8 +141,11 @@ function Admin() {
                             <td>2</td>
                             <td>Jane Smith</td>
                             <td>janesmith@example.com</td>
+                            <td>8902978923</td>
                             <td>G.N.M</td>
                             <td>3 Years</td>
+                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
+                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
                             <td>
                               <span className="badge bg-warning text-dark">
                                 Pending
