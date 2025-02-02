@@ -7,7 +7,6 @@ import PagenotFound from './pages/PagenotFound'
 import Footer from './components/Footer'
 import NurseProfile from './pages/NurseProfile'
 import Admin from './pages/Admin'
-import NurseRegistration from './pages/NurseRegistration'
 import Auth2 from './pages/Auth2'
 
 
@@ -26,7 +25,6 @@ function App() {
         <Route path='/nurseRegister' element={<Auth2 nurseRegister={true} />} />
         <Route path='/Dashboard' element={<Dashboard />} />
         <Route path='/NurseProfile' element={<NurseProfile />} />
-        <Route path='/NurseRegistration' element={<NurseRegistration />} />
         <Route path='*' element={<PagenotFound />} />
       </Routes>
       <Footer />

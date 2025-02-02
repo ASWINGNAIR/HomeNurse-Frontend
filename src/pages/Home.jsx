@@ -5,18 +5,19 @@ import OurServices from '../components/OurServices';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import OldPersonImg from '../assets/nurse1.jpg'
+import NurseImg from '../assets/nurse2.jpg'
 
-
-function Home() { 
+function Home() {
 
   return (
     <>
-      <Header/>
-      <div className='bg-transparent' style={{ marginTop:"93px"}} id='home'> 
+      <Header />
+      <div className='bg-transparent' style={{ marginTop: "93px" }} id='home'>
         <div className="container-fluid">
-        <HomeCarousel/>
+          <HomeCarousel />
 
-        <OurServices/>
+          <OurServices />
 
 
           <div className="bg-secondary p-5 my-5" style={{ minHeight: "500px" }}>
@@ -25,12 +26,12 @@ function Home() {
               <div className="col-lg-6 col-md-12 text-center text-lg-start mb-4 mb-lg-0">
                 <h1 className="text-light display-4">Care Partner</h1>
                 <p className="text-light">This is the place where you get your perfect Home Nurse.</p>
-                
-                    <Link to={'/userLogin'}><button className="btn btn-warning text-light px-3 py-2 mt-3">Login As User <FontAwesomeIcon icon={faArrowRight} /></button></Link>
-      
+
+                <Link to={'/userLogin'}><button className="btn btn-warning text-light px-3 py-2 mt-3">Login As User <FontAwesomeIcon icon={faArrowRight} /></button></Link>
+
               </div>
               <div className="col-lg-6 col-md-12 text-center">
-                <img src="https://lh3.googleusercontent.com/proxy/4XKH5Jz3K46HdRWS2UXOzRKHDq_cemmcJRnwIEVLO1gDp3mHVJoPaLICh7B87SJRqYuzUYPqTY2vkyXSW_ZLN9ImnSyqP78M00kg_BbMxaJvovUuPdCbtxMR-9_stxnhQLPVxgImJWx3g66KJ-PhxkR_JpWeGtW5" alt="Home Nurse" className="img-fluid" style={{ maxHeight: "300px" }} />
+                <img src={OldPersonImg} alt="Home Nurse" className="img-fluid" style={{ maxHeight: "300px" }} />
               </div>
             </div>
           </div>
@@ -42,13 +43,13 @@ function Home() {
               <div className="col-lg-6 col-md-12 text-center text-lg-start mb-4 mb-lg-0">
                 <h1 className="text-light display-4">Care Partner</h1>
                 <p className="text-light">If you are a certified nurse, you can join our team.</p>
-                
-                    <Link to={'/nurselogin'}><button className="btn btn-primary text-light px-3 py-2 mt-3">Login as Nurse <FontAwesomeIcon icon={faArrowRight} /></button></Link>
-                  
+
+                <Link to={'/nurselogin'}><button className="btn btn-primary text-light px-3 py-2 mt-3">Login as Nurse <FontAwesomeIcon icon={faArrowRight} /></button></Link>
+
               </div>
 
               <div className="col-lg-6 col-md-12 text-center">
-                <img src="https://media.istockphoto.com/id/1412849328/photo/portrait-of-a-young-nurse-doctor.jpg?s=612x612&w=0&k=20&c=7xyroZ4ZjhIxdzo69ouaa7wUnqt-cTg15hTxoG2nBKs=" alt="Nurse Portrait" className="img-fluid rounded" style={{ maxHeight: "400px", objectFit: "cover" }} />
+                <img src={NurseImg} alt="Nurse Portrait" className="img-fluid rounded" style={{ maxHeight: "400px", objectFit: "cover" }} />
               </div>
 
             </div>

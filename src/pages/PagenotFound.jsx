@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 function PagenotFound() {
   return (
     <>
-    <Header/>
+      <Header />
       <div className="container-fluid p-5">
         <div className="row">
           <div className="col-md-2"></div>

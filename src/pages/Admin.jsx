@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { Container, Row, Col, Card, Button, Table, Nav } from "react-bootstrap";
-import { getAllNurseProfileApi } from "../Service/allApi";
+import { approveNurseApi, getAllNurseProfileApi, rejectNurseApi } from "../Service/allApi";
+import { serverUrl } from "../Service/serviceUrl";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Admin() {
 
-  const [token , setToken] = useState("")
+  const [token, setToken] = useState("")
 
-  const [allNurseProfile , setAllNurseProfile] = useState([])
+  const [allNurseProfile, setAllNurseProfile] = useState([])
 
-  const getAllNurseProfile = async()=>{
-    if(sessionStorage.getItem("token")){
-      const token = sessionStorage.getItem("token")
+  const [rejectStatus, setRejectStatus] = useState([])
 
+  // get all nurse data
+
+  const getAllNurseProfile = async () => {
+
+    if (sessionStorage.getItem("token")) {
+      const token = sessionStorage.getItem('token')
       const reqHeader = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
@@ -23,23 +31,81 @@ function Admin() {
   }
 
   console.log(allNurseProfile);
-  
 
-  useEffect(()=>{
+
+  // reject the nurse profile by admin
+
+  const handleReject = async (id) => {
+    if (sessionStorage.getItem("token")) {
+      const token = sessionStorage.getItem('token')
+
+      const reqHeader = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+      const result = await rejectNurseApi(id, reqHeader)
+      console.log(result);
+
+      if (result.status == 200) {
+        setRejectStatus(result)
+
+        toast.warning('The profile get rejected by the Admin')
+      }
+      else {
+        toast.error('Something Went Wrong')
+      }
+    }
+  }
+
+
+  // approve the nurse profile by admin
+
+  const handleApprove = async (id) => {
+    if (sessionStorage.getItem("token")) {
+      const token = sessionStorage.getItem('token')
+
+      const reqHeader = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      };
+
+      const result = await approveNurseApi(id, reqHeader)
+      console.log(result);
+
+      if (result.status === 200) {
+        setAllNurseProfile((prevProfiles) =>
+          prevProfiles.map((nurse) =>
+            nurse._id === id ? { ...nurse, status: "Approved" } : nurse
+          )
+        );
+
+        toast.success('Nurse has been approved')
+      } else {
+        toast.error('Something went wrong')
+      }
+    }
+  };
+
+
+
+  useEffect(() => {
     getAllNurseProfile()
-  },[])
-  
+    if (sessionStorage.getItem("token")) {
+      setToken(sessionStorage.getItem('token'))
+    }
+  }, [rejectStatus])
+
 
   return (
     <>
       <Header />
 
-      <div style={{marginTop:"130px"}}>
+      <div style={{ marginTop: "130px" }}>
         <div className="d-flex flex-column flex-md-row mt-5">
           {/* Sidebar */}
           <div
             className="d-md-block bg-dark text-light p-3"
-            style={{ width: "250px",height:"235px" }}
+            style={{ width: "250px", height: "235px" }}
           >
             <h3 className="text-center text-light">Admin Panel</h3>
             <Nav defaultActiveKey="/dashboard" className="flex-column mt-4">
@@ -51,43 +117,40 @@ function Admin() {
               </Nav.Link>
             </Nav>
           </div>
-  
+
           {/* Main Content */}
           <div className="flex-grow-1 ">
             {/* Header */}
             <header className="bg-light p-3">
               <h4>Welcome, Admin</h4>
             </header>
-  
-            {/* Content Area */}
+
+
             <Container fluid className="mt-4">
               <Row>
-                {/* Cards */}
-                <Col xs={12} md={6} lg={4} className="mb-4">
+
+                {/* <Col xs={12} md={6} lg={4} className="mb-4">
                   <Card className="shadow">
                     <Card.Body>
                       <Card.Title>Total Users</Card.Title>
                       <h3>1,245</h3>
-                      <Button variant="primary" size="sm">
-                        View Details
-                      </Button>
                     </Card.Body>
                   </Card>
-                </Col>
-  
+                </Col> */}
+
                 <Col xs={12} md={6} lg={4} className="mb-4">
                   <Card className="shadow">
                     <Card.Body>
                       <Card.Title>Active Nurses</Card.Title>
-                      <h3>245</h3>
-                      <Button variant="primary" size="sm">
-                        View Details
-                      </Button>
+                      <h3>{allNurseProfile?.length || 0}</h3>
+                      <Link to={'/Dashboard'}>
+                        <Button variant="primary" size="sm">View Details</Button>
+                      </Link>
                     </Card.Body>
                   </Card>
                 </Col>
               </Row>
-  
+
               {/* Approval Table */}
               <Row>
                 <Col>
@@ -110,60 +173,41 @@ function Admin() {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>johndoe@example.com</td>
-                            <td>9098738737</td>
-                            <td>B.Sc Nursing</td>
-                            <td>5 Years</td>
-                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
-                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
-                            <td>
-                              <span className="badge bg-warning text-dark">
-                                Pending
-                              </span>
-                            </td>
-                            <td>
-                              <Button
-                                variant="success"
-                                size="sm"
-                                className="me-2"
-                              >
-                                Approve
-                              </Button>
-                              <Button variant="danger" size="sm">
-                                Reject
-                              </Button>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>Jane Smith</td>
-                            <td>janesmith@example.com</td>
-                            <td>8902978923</td>
-                            <td>G.N.M</td>
-                            <td>3 Years</td>
-                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
-                            <td><a href="" target="_blank"  style={{textDecoration:"none"}} >Open File</a></td>
-                            <td>
-                              <span className="badge bg-warning text-dark">
-                                Pending
-                              </span>
-                            </td>
-                            <td>
-                              <Button
-                                variant="success"
-                                size="sm"
-                                className="me-2"
-                              >
-                                Approve
-                              </Button>
-                              <Button variant="danger" size="sm">
-                                Reject
-                              </Button>
-                            </td>
-                          </tr>
+                          {allNurseProfile?.map((item, index) => (
+                            <tr key={item._id}>
+                              <td>{index + 1}</td>
+                              <td>{item?.username}</td>
+                              <td>{item?.email}</td>
+                              <td>{item?.mobile}</td>
+                              <td>{item?.qualification}</td>
+                              <td>{item?.experience} Years</td>
+                              <td><a href={`${serverUrl}/upload/${item.degCertificate}`} target="_blank" style={{ textDecoration: "none" }} >Open File</a></td>
+                              <td><a href={`${serverUrl}/upload/${item.expCertificate}`} target="_blank" style={{ textDecoration: "none" }} >Open File</a></td>
+
+                              <td>
+                                <span className={`badge ${item.status === "Approved" ? "bg-success" : "bg-warning text-dark"}`}>
+                                  {item.status || "Pending"}
+                                </span>
+                              </td>
+
+                              <td>
+                                {item.status === "Approved" ? (
+                                  <Button variant="secondary" size="sm" disabled>Approved</Button>
+                                ) : (
+                                  <>
+                                    <Button onClick={() => handleApprove(item?._id)} variant="success" size="sm" className="me-2">
+                                      Approve
+                                    </Button>
+                                    <Button onClick={() => handleReject(item?._id)} variant="danger" size="sm">
+                                      Reject
+                                    </Button>
+                                  </>
+                                )}
+                              </td>
+
+                            </tr>
+                          ))
+                          }
                         </tbody>
                       </Table>
                     </Card.Body>
@@ -174,8 +218,11 @@ function Admin() {
           </div>
         </div>
       </div>
+
+      <ToastContainer position='top-center' autoClose={2000} theme='colored' />
+
     </>
-  );
+  )
 }
 
 export default Admin;

@@ -32,8 +32,17 @@ export const getAllNurseProfileApi = async(reqHeader)=>{
     return await commonApi('GET',`${serverUrl}/allNurse-profile`,"",reqHeader)
 }
 
-// update nurse profile
-export const updateNurseProfileApi = async(id,reqBody,reqHeader)=>{
-    return await commonApi('PUT',`${serverUrl}/update-nurseProfile/${id}`,reqBody,reqHeader)
+// reject nurse by admin
+export const rejectNurseApi = async(id,reqHeader)=>{
+    return await commonApi('DELETE',`${serverUrl}/reject-nurse/${id}`,{},reqHeader) 
+ }
+
+ // Approve nurse by admin
+export const approveNurseApi = async (id, reqHeader) => {
+    return await commonApi('PUT', `${serverUrl}/approve-nurse/${id}`, {}, reqHeader)
 }
 
+// get all approved nurse profile
+export const getApprovedNursesApi = async(searchKey)=>{
+    return await commonApi('GET',`${serverUrl}/approvedNurses?search=${searchKey}`,"","")
+}
