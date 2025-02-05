@@ -19,15 +19,14 @@ function Admin() {
 
   const getAllNurseProfile = async () => {
 
-    if (sessionStorage.getItem("token")) {
-      const token = sessionStorage.getItem('token')
+    
       const reqHeader = {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       }
       const result = await getAllNurseProfileApi(reqHeader)
       setAllNurseProfile(result.data)
-    }
+    
   }
 
   console.log(allNurseProfile);
@@ -129,14 +128,7 @@ function Admin() {
             <Container fluid className="mt-4">
               <Row>
 
-                {/* <Col xs={12} md={6} lg={4} className="mb-4">
-                  <Card className="shadow">
-                    <Card.Body>
-                      <Card.Title>Total Users</Card.Title>
-                      <h3>1,245</h3>
-                    </Card.Body>
-                  </Card>
-                </Col> */}
+
 
                 <Col xs={12} md={6} lg={4} className="mb-4">
                   <Card className="shadow">

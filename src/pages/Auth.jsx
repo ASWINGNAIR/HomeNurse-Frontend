@@ -1,13 +1,17 @@
 import { faArrowLeft, faHouseMedical } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import { loginUserApi, registerUserApi } from '../Service/allApi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { loginResponseContext } from '../Context/ContextShare'
+
 
 function Auth({ userRegister }) {
+
+  const {setLoginResponse} = useContext(loginResponseContext)
 
   const navigate = useNavigate()
 
@@ -66,10 +70,12 @@ function Auth({ userRegister }) {
     else {
       if (email === 'rolex@gmail.com' && password === 'rolex123') {
         toast.success('Admin Login Successful');
+        // setLoginResponse(true)
 
         sessionStorage.setItem("role", "admin");
         sessionStorage.setItem("email", "rolex@gmail.com");
         sessionStorage.setItem("password", "rolex123");
+        
 
         setUserDetails({
           username: "",
@@ -86,6 +92,7 @@ function Auth({ userRegister }) {
         console.log(result);
         if (result.status == 200) {
           toast.success('Login Succesfull')
+          setLoginResponse(true)
 
           sessionStorage.setItem("existingUsers", JSON.stringify(result.data.existingUsers))
           sessionStorage.setItem("token", result.data.token)

@@ -1,13 +1,17 @@
 import { faArrowLeft, faHouseMedical } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import { loginNurseApi, registerNurseApi } from '../Service/allApi'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { loginResponseContext } from '../Context/ContextShare'
+
 
 function Auth2({ nurseRegister }) {
+
+  const {setLoginResponse} = useContext(loginResponseContext)
 
   const navigate = useNavigate()
 
@@ -123,10 +127,12 @@ function Auth2({ nurseRegister }) {
     else {
       if (email === 'rolex@gmail.com' && password === 'rolex123') {
         toast.success('Admin Login Successful');
+        // setLoginResponse(true)
 
         sessionStorage.setItem("role", "admin");
         sessionStorage.setItem("email", "rolex@gmail.com");
         sessionStorage.setItem("password", "rolex123");
+       
 
         setNurseDetails({
           username: "",
@@ -143,6 +149,7 @@ function Auth2({ nurseRegister }) {
         console.log(result);
         if (result.status == 200) {
           toast.success('Login Successfull')
+          setLoginResponse(true)
 
           sessionStorage.setItem("existingNurses", JSON.stringify(result.data.existingNurses))
           sessionStorage.setItem("token", result.data.token)
